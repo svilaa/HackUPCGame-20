@@ -16,6 +16,7 @@ background = pygame.image.load('space_img/background.png')
 # Sound
 mixer.music.load("space_img/background.wav")
 mixer.music.play(-1)
+mixer.music.set_volume(0.1)
 
 # Caption and Icon
 
@@ -38,10 +39,11 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 6
 
-china_enemy_types=["img/cat.png", "img/chopsticks.png", "img/fan.png"]
+china_enemy_types = ["img/cat.png", "img/chopsticks.png", "img/fan.png"]
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.transform.scale(pygame.image.load(china_enemy_types[random.randint(0,2)]),(64,64)))
+    enemyImg.append(pygame.transform.scale(pygame.image.load(
+        china_enemy_types[random.randint(0, 2)]), (64, 64)))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -96,11 +98,9 @@ def fire_bullet(x, y):
 
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt(math.pow(enemyX - bulletX, 2) + (math.pow(enemyY - bulletY, 2)))
-    if distance < 27:
-        return True
-    else:
-        return False
+    distance = math.sqrt(math.pow(enemyX - bulletX, 2) +
+                         (math.pow(enemyY - bulletY, 2)))
+    return distance < 27
 
 
 # Game Loop
@@ -124,6 +124,7 @@ while running:
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("space_img/laser.wav")
+                    bulletSound.set_volume(0.1)
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
                     bulletX = playerX
