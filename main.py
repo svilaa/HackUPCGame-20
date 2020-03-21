@@ -1,5 +1,8 @@
 from mainGame import Game
 
 if __name__ == "__main__":
+    menu = Menu()
     mainGame = Game()
-    mainGame.run()
+    while True:
+        menu.run()
+        mainGame.run()

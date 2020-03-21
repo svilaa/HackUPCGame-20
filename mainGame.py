@@ -159,5 +159,5 @@ class Game():
 
     def run(self):
         # Game Loop
-        while self.running:
+        while self.running:    
             self.gameLoop()
