@@ -9,6 +9,5 @@ if __name__ == "__main__":
         menu.run()
         mainGame.run()
 
-        if(mainGame.isGameFinished):
-            menu = Menu()
-            mainGame = Game()
+        menu = Menu()
+        mainGame = Game()
