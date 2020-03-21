@@ -22,8 +22,9 @@ class Game():
                                   "img/chopsticks.png", "img/fan.png"]
         self.italy_enemy_types = ["img/italian_hand.png",
                                   "img/pizza.png", "img/wallet.png"]
-
-
+        self.spanish_enemy_types = ["img/fork.png",
+                                  "img/knife.png", "img/wallet.png"]
+        
 
     def run(self):
         self.level1 = Level(self.ui, self.china_enemy_types)
@@ -32,6 +33,6 @@ class Game():
             self.level2 = Level(self.ui, self.italy_enemy_types)
             if self.level2.run():
                 self.ui.set_background('img/backgrounds/spain.jpg')
-                self.level3 = Level(self.ui, self.china_enemy_types)
+                self.level3 = Level(self.ui, self.spanish_enemy_types)
                 self.level3.run()
                 #TODO: si guanyem dir que ets una machine

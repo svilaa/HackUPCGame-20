@@ -7,6 +7,7 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet
 import pygameMenu 
+import time
 
 class Level:
     score_value = 0
@@ -24,6 +25,10 @@ class Level:
         # Game Loop
         while self.running and Level.score_value<self.max_score:
             self.gameLoop()
+        if self.running==False:
+            time.sleep(3)
+        else:
+            time.sleep(2)
         return self.running
         
 
@@ -66,6 +71,11 @@ class Level:
     def game_over_text(self):
         over_text = self.over_font.render("GAME OVER", True, (255, 255, 255))
         self.ui.screen.blit(over_text, (200, 250))
+    
+    def level_up_text(self):
+        over_text = self.over_font.render("LEVEL UP", True, (255, 255, 255))
+        self.ui.screen.blit(over_text, (230, 250))
+
 
     def player_rend(self, x, y):
         self.ui.screen.blit(self.player.playerImg, (x, y))
@@ -126,9 +136,9 @@ class Level:
                 for j in range(self.num_of_enemies):
                     self.enemy_list[i].enemyY = self.ui.height + 500
                 self.game_over_text()
-
                 self.running = False
-
+            elif Level.score_value>=self.max_score:
+                self.level_up_text()
             self.enemy_list[i].enemyY += self.enemy_list[i].enemyY_change
 
             self.enemy_list[i].enemyX += self.enemy_list[i].enemyX_change
