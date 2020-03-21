@@ -35,6 +35,7 @@ playerX_change = 0
 enemyImg = []
 enemyX = []
 enemyY = []
+enemyX_change = []
 enemyY_change = []
 num_of_enemies = 10
 
@@ -46,7 +47,8 @@ for i in range(num_of_enemies):
     enemyImg.append(img)
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150) * -1)
-    enemyY_change.append(0.6)
+    enemyX_change.append(4)
+    enemyY_change.append(0.5)
 
 # Bullet
 
@@ -117,9 +119,9 @@ while running:
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -6
+                playerX_change = -8
             if event.key == pygame.K_RIGHT:
-                playerX_change = 6
+                playerX_change = 8
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("space_img/laser.wav")
@@ -132,6 +134,9 @@ while running:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
+
+    # 5 = 5 + -0.1 -> 5 = 5 - 0.1
+    # 5 = 5 + 0.1
 
     playerX += playerX_change
     if playerX <= 0:
@@ -149,6 +154,11 @@ while running:
             game_over_text()
             break
 
+        enemyX[i] += enemyX_change[i]
+        if enemyX[i] <= 0:
+            enemyX_change[i] = 4
+        elif enemyX[i] >= 736:
+            enemyX_change[i] = -4
         enemyY[i] += enemyY_change[i]
 
         # Collision
