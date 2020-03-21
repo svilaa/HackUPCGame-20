@@ -8,6 +8,5 @@ if __name__ == "__main__":
     while True:
         menu.run()
         mainGame.run()
-
         menu = Menu()
         mainGame = Game()
