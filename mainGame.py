@@ -6,7 +6,6 @@ from pygame import mixer
 from player import Player
 from enemy import Enemy
 from bullet import Bullet
-import pygameMenu 
 from level import Level
 
 
@@ -24,6 +23,7 @@ class Game():
                                   "img/pizza.png", "img/wallet.png"]
         self.spanish_enemy_types = ["img/fork.png",
                                   "img/knife.png", "img/wallet.png"]
+        self.isGameFinished = False
         
 
     def run(self):
@@ -35,4 +35,4 @@ class Game():
                 self.ui.set_background('img/backgrounds/spain.jpg')
                 self.level3 = Level(self.ui, self.spanish_enemy_types, 17, final_level=True)
                 self.level3.run()
-
+        self.isGameFinished = True

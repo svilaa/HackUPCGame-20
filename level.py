@@ -6,7 +6,6 @@ from pygame import mixer
 from player import Player
 from enemy import Enemy
 from bullet import Bullet
-import pygameMenu 
 import time
 
 class Level:
