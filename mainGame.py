@@ -28,8 +28,7 @@ class Game():
         self.italia_music = "music/italian_level.mp3"
         self.spain_music = "music/spanish_level.mp3"
         self.final_boss_music = "music/final_bos.mp3"
-        self.isGameFinished = False
-        
+
 
     def run(self):
         level1 = Level(self.ui, self.china_enemy_types, 7)
@@ -44,6 +43,7 @@ class Game():
                 level3 = Level(self.ui, self.spanish_enemy_types, 17)
                 if level3.run():
                     self.ui.set_background('img/backgrounds/inside_body_cartoon_2.PNG')
+                    self.ui.set_sound(self.final_boss_music)
                     final_level = FinalBoss(self.ui)
                     final_level.run()
         Level.score_value = 0
