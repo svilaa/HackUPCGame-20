@@ -27,12 +27,12 @@ class Game():
         
 
     def run(self):
-        self.level1 = Level(self.ui, self.china_enemy_types)
+        self.level1 = Level(self.ui, self.china_enemy_types, 7)
         if self.level1.run():
             self.ui.set_background('img/backgrounds/italy.png')
-            self.level2 = Level(self.ui, self.italy_enemy_types)
+            self.level2 = Level(self.ui, self.italy_enemy_types, 12)
             if self.level2.run():
                 self.ui.set_background('img/backgrounds/spain.jpg')
-                self.level3 = Level(self.ui, self.spanish_enemy_types, final_level=True)
+                self.level3 = Level(self.ui, self.spanish_enemy_types, 17, final_level=True)
                 self.level3.run()
-                #TODO: si guanyem dir que ets una machine
+

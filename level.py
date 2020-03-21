@@ -11,12 +11,13 @@ import time
 
 class Level:
     score_value = 0
-    def __init__(self, ui, enemies_img, final_level=False):
+    def __init__(self, ui, enemies_img, num_of_enemies, final_level=False):
         self.ui = ui
         self.running = True
-        self.max_score = Level.score_value+5
+        self.max_score = Level.score_value+100
         self.enemies_img = enemies_img
         self.final_level = final_level
+        self.num_of_enemies = num_of_enemies
         self.init_level()
         
 
@@ -42,7 +43,6 @@ class Level:
         # Enemy
 
         self.enemy_list = []
-        self.num_of_enemies = 7
         print(self.__dict__)
         for i in range(self.num_of_enemies):
             self.enemy_list.append(Enemy(self.enemies_img[random.randint(
