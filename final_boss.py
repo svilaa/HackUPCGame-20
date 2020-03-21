@@ -35,7 +35,7 @@ class FinalBoss:
                              self.player.playerY, 0, 12)
 
         self.boss = Enemy("img/coronavirus.png", random.randint(0, self.ui.width-90),
-                     random.randint(50, 150)*-1, 2.5, 0.4, 90, 90)
+                     random.randint(50, 150)*-1, 2.5, 0.4, 100, 100)
         # Score
         self.font = pygame.font.Font('freesansbold.ttf', 32)
         self.textX = 10
@@ -72,7 +72,7 @@ class FinalBoss:
     def isCollision(self, enemyX, enemyY, bulletX, bulletY):
         distance = math.sqrt(math.pow(enemyX - bulletX, 2) +
                              (math.pow(enemyY - bulletY, 2)))
-        return distance < 27
+        return distance < 50
 
     def gameLoop(self):
         # RGB = Red, Green, Blue

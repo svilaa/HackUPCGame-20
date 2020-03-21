@@ -15,7 +15,7 @@ class Level:
     def __init__(self, ui, enemies_img, num_of_enemies):
         self.ui = ui
         self.running = True
-        self.max_score = Level.score_value+5
+        self.max_score = Level.score_value+50
         self.enemies_img = enemies_img
         self.num_of_enemies = num_of_enemies
         self.init_level()
@@ -36,7 +36,6 @@ class Level:
                              self.ui.width/2, self.ui.height-10)
 
         # Enemy
-
         self.enemy_list = []
         for i in range(self.num_of_enemies):
             self.enemy_list.append(Enemy(self.enemies_img[random.randint(
