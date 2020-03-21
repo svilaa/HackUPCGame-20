@@ -33,6 +33,6 @@ class Game():
             self.level2 = Level(self.ui, self.italy_enemy_types)
             if self.level2.run():
                 self.ui.set_background('img/backgrounds/spain.jpg')
-                self.level3 = Level(self.ui, self.spanish_enemy_types)
+                self.level3 = Level(self.ui, self.spanish_enemy_types, final_level=True)
                 self.level3.run()
                 #TODO: si guanyem dir que ets una machine

@@ -11,12 +11,14 @@ import time
 
 class Level:
     score_value = 0
-    def __init__(self, ui, enemies_img):
+    def __init__(self, ui, enemies_img, final_level=False):
         self.ui = ui
         self.running = True
-        self.max_score = Level.score_value+20
+        self.max_score = Level.score_value+5
         self.enemies_img = enemies_img
+        self.final_level = final_level
         self.init_level()
+        
 
     def run(self):
         print("LEVEL UP")
@@ -73,9 +75,13 @@ class Level:
         self.ui.screen.blit(over_text, (200, 250))
     
     def level_up_text(self):
-        over_text = self.over_font.render("LEVEL UP", True, (255, 255, 255))
+        over_text = self.over_font.render("LEVEL UP", True, (0,0,0))
         self.ui.screen.blit(over_text, (230, 250))
 
+    def you_win(self):
+        self.over_font = pygame.font.Font('freesansbold.ttf', 32)
+        over_text = self.over_font.render("YOU'VE DESTROYED CORONAVIRUS!", True, (0,0,0))
+        self.ui.screen.blit(over_text, (100, 250))
 
     def player_rend(self, x, y):
         self.ui.screen.blit(self.player.playerImg, (x, y))
@@ -137,8 +143,10 @@ class Level:
                     self.enemy_list[i].enemyY = self.ui.height + 500
                 self.game_over_text()
                 self.running = False
-            elif Level.score_value>=self.max_score:
+            elif Level.score_value>=self.max_score and not self.final_level:
                 self.level_up_text()
+            elif Level.score_value>=self.max_score and self.final_level:
+                self.you_win()
             self.enemy_list[i].enemyY += self.enemy_list[i].enemyY_change
 
             self.enemy_list[i].enemyX += self.enemy_list[i].enemyX_change
