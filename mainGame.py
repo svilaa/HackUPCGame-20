@@ -7,6 +7,7 @@ from player import Player
 from enemy import Enemy
 from bullet import Bullet
 from level import Level
+from final_boss import FinalBoss
 
 
 class Game():
@@ -28,19 +29,21 @@ class Game():
         self.spain_music = "music/spanish_level.mp3"
         self.final_boss_music = "music/final_bos.mp3"
 
-        self.isGameFinished = False
-        
 
     def run(self):
-        self.level1 = Level(self.ui, self.china_enemy_types, 7, self.china_music)
+        level1 = Level(self.ui, self.china_enemy_types, 7)
         self.ui.set_sound(self.china_music)
-        if self.level1.run():
+        if level1.run():
             self.ui.set_sound(self.italia_music)
             self.ui.set_background('img/backgrounds/italy.png')
-            self.level2 = Level(self.ui, self.italy_enemy_types, 12, self.italia_music)
-            if self.level2.run():
+            level2 = Level(self.ui, self.italy_enemy_types, 12)
+            if level2.run():
                 self.ui.set_sound(self.spain_music)
                 self.ui.set_background('img/backgrounds/spain.jpg')
-                self.level3 = Level(self.ui, self.spanish_enemy_types, 17, self.spain_music, final_level=True)
-                self.level3.run()
+                level3 = Level(self.ui, self.spanish_enemy_types, 17)
+                if level3.run():
+                    self.ui.set_background('img/backgrounds/inside_body_cartoon_2.PNG')
+                    self.ui.set_sound(self.final_boss_music)
+                    final_level = FinalBoss(self.ui)
+                    final_level.run()
         Level.score_value = 0
