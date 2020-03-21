@@ -1,65 +1,39 @@
 import math
 import random
 import pygame
+from ui import UI
 from pygame import mixer
+from player import Player
+from enemy import Enemy
+from bullet import Bullet
 
-class MainGame():
+class Game():
     def __init__(self):
         # Intialize the pygame
         pygame.init()
-
         self.running = True
-
-        # create the screen
-        self.screen = pygame.display.set_mode((800, 600))
-
-        # Background
-        self.background = pygame.image.load('space_img/background.png')
-
-        # Sound
-        mixer.music.load("space_img/background.wav")
-        mixer.music.play(-1)
-
+        self.ui=UI(800,600)
         # Caption and Icon
-
-        pygame.display.set_caption("Corona Invaiders")
-        self.icon = pygame.image.load('img/virus.png')
-
-        pygame.display.set_icon(self.icon)
+        pygame.display.set_caption(self.ui.name)
+        pygame.display.set_icon(self.ui.icon)
 
         # Player
-        self.playerImg = pygame.image.load('space_img/player.png')
-        self.playerX = 370
-        self.playerY = 480
-        self.playerX_change = 0
+        self.player = Player(self.ui.width/2, self.ui.height-10)
 
         # Enemy
-        self.enemyImg = []
-        self.enemyX = []
-        self.enemyY = []
-        self.enemyX_change = []
-        self.enemyY_change = []
-        self.num_of_enemies = 6
-
+        
         self.china_enemy_types=["img/cat.png", "img/chopsticks.png", "img/fan.png"]
+        self.enemy_list=[]
+        self.num_of_enemies=6
         for i in range(self.num_of_enemies):
-            self.enemyImg.append(pygame.transform.scale(pygame.image.load(self.china_enemy_types[random.randint(0,2)]),(64,64)))
-            self.enemyX.append(random.randint(0, 736))
-            self.enemyY.append(random.randint(50, 150))
-            self.enemyX_change.append(4)
-            self.enemyY_change.append(40)
+            self.enemy_list.append(Enemy(self.china_enemy_types[random.randint(0,2)],random.randint(0, self.ui.width-64),random.randint(50, 150)*-1, 4, 0.5))
 
         # Bullet
 
         # Ready - You can't see the bullet on the screen
         # Fire - The bullet is currently moving
-
-        self.bulletImg = pygame.image.load('space_img/bullet.png')
-        self.bulletX = 0
-        self.bulletY = 480
-        self.bulletX_change = 0
-        self.bulletY_change = 10
-        self.bullet_state = "ready"
+        self.bullet=Bullet("space_img/bullet.png", 0, self.player.playerY, 0, 18)
+        
 
         # Score
 
@@ -74,39 +48,36 @@ class MainGame():
 
     def show_score(self, x, y):
         score = self.font.render("Score : " + str(self.score_value), True, (255, 255, 255))
-        self.screen.blit(score, (x, y))
+        self.ui.screen.blit(score, (x, y))
 
 
     def game_over_text(self):
         over_text = self.over_font.render("GAME OVER", True, (255, 255, 255))
-        self.screen.blit(over_text, (200, 250))
+        self.ui.screen.blit(over_text, (200, 250))
 
 
-    def player(self, x, y):
-        self.screen.blit(self.playerImg, (x, y))
+    def player_rend(self, x, y):
+        self.ui.screen.blit(self.player.playerImg, (x, y))
 
 
-    def enemy(self, x, y, i):
-        self.screen.blit(self.enemyImg[i], (x, y))
+    def enemy_rend(self, i):
+        self.ui.screen.blit(self.enemy_list[i].enemyImg, (self.enemy_list[i].enemyX, self.enemy_list[i].enemyY))
 
 
     def fire_bullet(self, x, y):
-        self.bullet_state = "fire"
-        self.screen.blit(self.bulletImg, (x + 16, y + 10))
+        self.bullet.bullet_state = "fire"
+        self.ui.screen.blit(self.bullet.bulletImg, (x + 16, y + 10))
 
 
     def isCollision(self, enemyX, enemyY, bulletX, bulletY):
         distance = math.sqrt(math.pow(enemyX - bulletX, 2) + (math.pow(enemyY - bulletY, 2)))
-        if distance < 27:
-            return True
-        else:
-            return False
+        return distance < 27
 
     def gameLoop(self):
         # RGB = Red, Green, Blue
-        self.screen.fill((0, 0, 0))
+        self.ui.screen.fill((0, 0, 0))
         # Background Image
-        self.screen.blit(self.background, (0, 0))
+        self.ui.screen.blit(self.ui.background, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
@@ -114,73 +85,75 @@ class MainGame():
             # if keystroke is pressed check whether its right or left
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    self.playerX_change = -5
+                    self.player.playerX_change = -5
                 if event.key == pygame.K_RIGHT:
-                    self.playerX_change = 5
+                    self.player.playerX_change = 5
                 if event.key == pygame.K_SPACE:
-                    if self.bullet_state is "ready":
+                    if self.bullet.bullet_state is "ready":
                         bulletSound = mixer.Sound("space_img/laser.wav")
                         bulletSound.play()
                         # Get the current x cordinate of the spaceship
-                        self.bulletX = self.playerX
-                        self.fire_bullet(self.bulletX, self.bulletY)
+                        self.bullet.bulletX = self.player.playerX
+                        self.fire_bullet(self.bullet.bulletX, self.bullet.bulletY)
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    self.playerX_change = 0
+                    self.player.playerX_change = 0
 
         # 5 = 5 + -0.1 -> 5 = 5 - 0.1
         # 5 = 5 + 0.1
 
-        self.playerX += self.playerX_change
-        if self.playerX <= 0:
-            self.playerX = 0
-        elif self.playerX >= 736:
-            self.playerX = 736
+        self.player.playerX += self.player.playerX_change
+        if self.player.playerX <= 0:
+            self.player.playerX = 0
+        elif self.player.playerX >= self.ui.width-self.player.width:
+            self.player.playerX = self.ui.width-self.player.width
 
         # Enemy Movement
         for i in range(self.num_of_enemies):
 
             # Game Over
-            if self.enemyY[i] > 440:
+            if self.enemy_list[i].enemyY + self.enemy_list[i].height > self.player.playerY:
                 for j in range(self.num_of_enemies):
-                    self.enemyY[j] = 2000
+                    self.enemy_list[i].enemyY = self.ui.height + 500
                 self.game_over_text()
-                break
-
-            self.enemyX[i] += self.enemyX_change[i]
-            if self.enemyX[i] <= 0:
-                self.enemyX_change[i] = 4
-                self.enemyY[i] += self.enemyY_change[i]
-            elif self.enemyX[i] >= 736:
-                self.enemyX_change[i] = -4
-                self.enemyY[i] += self.enemyY_change[i]
+                
+                self.running = False
+            
+            self.enemy_list[i].enemyY += self.enemy_list[i].enemyY_change
+            
+            self.enemy_list[i].enemyX += self.enemy_list[i].enemyX_change
+            if self.enemy_list[i].enemyX <= 0:
+                self.enemy_list[i].enemyX_change = 4
+            elif self.enemy_list[i].enemyX >= self.ui.width-self.enemy_list[i].width:
+                self.enemy_list[i].enemyX_change = -4
 
             # Collision
-            collision = self.isCollision(self.enemyX[i], self.enemyY[i], self.bulletX, self.bulletY)
+            collision = self.isCollision(self.enemy_list[i].enemyX, self.enemy_list[i].enemyY, self.bullet.bulletX, self.bullet.bulletY)
             if collision:
                 explosionSound = mixer.Sound("space_img/explosion.wav")
                 explosionSound.play()
-                self.bulletY = 480
-                self.bullet_state = "ready"
-                self.score_value += 1
-                self.enemyX[i] = random.randint(0, 736)
-                self.enemyY[i] = random.randint(50, 150)
+                self.bullet.bulletY = self.player.playerY + self.bullet.height
+                self.bullet.bullet_state = "ready"
+                self.score_value += 5
+                self.enemy_list[i].enemyX = random.randint(0, self.ui.width - self.enemy_list[i].width)
+                self.enemy_list[i].enemyY = random.randint(50, 150)*-1
 
-            self.enemy(self.enemyX[i], self.enemyY[i], i)
+            self.enemy_rend(i)
 
         # Bullet Movement
-        if self.bulletY <= 0:
-            self.bulletY = 480
-            self.bullet_state = "ready"
+        if self.bullet.bulletY <= 0:
+            self.bullet.bulletY = self.player.playerY + self.bullet.height
+            self.bullet.bullet_state = "ready"
 
-        if self.bullet_state is "fire":
-            self.fire_bullet(self.bulletX, self.bulletY)
-            self.bulletY -= self.bulletY_change
+        if self.bullet.bullet_state is "fire":
+            self.fire_bullet(self.bullet.bulletX, self.bullet.bulletY)
+            self.bullet.bulletY -= self.bullet.bulletY_change
 
-        self.player(self.playerX, self.playerY)
+        self.player_rend(self.player.playerX, self.player.playerY)
         self.show_score(self.textX, self.textY)
         pygame.display.update()
+        
 
     def run(self):
         # Game Loop

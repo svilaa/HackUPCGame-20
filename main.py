@@ -2,8 +2,8 @@ import math
 import random
 import pygame
 from pygame import mixer
-import mainGame
+from mainGame import Game
 
 if __name__ == "__main__":
-    mainGame = mainGame.MainGame()
+    mainGame = Game()
     mainGame.run()
