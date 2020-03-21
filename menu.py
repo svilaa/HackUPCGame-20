@@ -26,7 +26,6 @@ class Menu:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-                print(pygame.event)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.intro=False
