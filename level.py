@@ -13,7 +13,7 @@ class Level:
     def __init__(self, ui, enemies_img, num_of_enemies, level_music, final_level=False):
         self.ui = ui
         self.running = True
-        self.max_score = Level.score_value+100
+        self.max_score = Level.score_value+5
         self.enemies_img = enemies_img
         self.final_level = final_level
         self.num_of_enemies = num_of_enemies
@@ -67,7 +67,7 @@ class Level:
 
     def show_score(self, x, y):
         score = self.font.render(
-            "Score : " + str(Level.score_value), True, (255, 255, 255))
+            "Score : " + str(Level.score_value), True, (0,0,0))
         self.ui.screen.blit(score, (x, y))
 
     def game_over_text(self):
@@ -80,7 +80,7 @@ class Level:
 
     def you_win(self):
         self.over_font = pygame.font.Font('freesansbold.ttf', 32)
-        over_text = self.over_font.render("YOU'VE DESTROYED CORONAVIRUS!", True, (0,0,0))
+        over_text = self.over_font.render("YOU'VE DESTROYED CORONAVIRUS!", True, (255,255,255)))
         self.ui.screen.blit(over_text, (100, 250))
 
     def player_rend(self, x, y):
