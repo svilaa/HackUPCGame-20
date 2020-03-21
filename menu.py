@@ -13,6 +13,8 @@ class Menu:
         self.block_color = (53,115,255)
         self.car_width = 73
         self.clock = pygame.time.Clock()
+        self.background = pygame.transform.scale(pygame.image.load(
+            'img/startMenu/coronainvaders.png'), (800, 600))
 
     def text_objects(self, text, font):
         textSurface = font.render(text, True, self.black)
@@ -29,15 +31,7 @@ class Menu:
                     if event.key == pygame.K_SPACE:
                         self.intro=False
                         print(pygame.event)
-            self.gameDisplay.fill(self.white)
-            largeText = pygame.font.Font('freesansbold.ttf',115)
-            TextSurf, TextRect = self.text_objects("A bit Racey", largeText)
-            TextRect.center = ((self.display_width/2),(self.display_height/2))
-            self.gameDisplay.blit(TextSurf, TextRect)
-
-            pygame.draw.rect(self.gameDisplay, self.green,(150,450,100,50))
-            pygame.draw.rect(self.gameDisplay, self.red,(550,450,100,50))
-
+            self.gameDisplay.blit(self.background, (0, 0))
 
             pygame.display.update()
             self.clock.tick(15)
