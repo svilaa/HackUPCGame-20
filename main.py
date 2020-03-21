@@ -18,8 +18,10 @@ mixer.music.load("space_img/background.wav")
 mixer.music.play(-1)
 
 # Caption and Icon
+
 pygame.display.set_caption("Corona Invaiders")
-icon = pygame.image.load('space_img/ufo.png')
+icon = pygame.image.load('img/virus.png')
+
 pygame.display.set_icon(icon)
 
 # Player
