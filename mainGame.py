@@ -84,7 +84,7 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-
+                quit()
             # if keystroke is pressed check whether its right or left
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
