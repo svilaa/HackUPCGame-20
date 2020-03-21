@@ -25,9 +25,10 @@ class Menu:
                     pygame.quit()
                     quit()
                 print(pygame.event)
-                if event.type == pygame.K_SPACE:
-                    self.intro=False
-                    print(pygame.event)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.intro=False
+                        print(pygame.event)
             self.gameDisplay.fill(self.white)
             largeText = pygame.font.Font('freesansbold.ttf',115)
             TextSurf, TextRect = self.text_objects("A bit Racey", largeText)

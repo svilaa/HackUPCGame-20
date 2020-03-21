@@ -49,6 +49,8 @@ class Game():
         # Game Over
         self.over_font = pygame.font.Font('freesansbold.ttf', 64)
 
+        self.isGameFinished = False
+
     def show_score(self, x, y):
         score = self.font.render(
             "Score : " + str(self.score_value), True, (255, 255, 255))
@@ -119,6 +121,7 @@ class Game():
                 self.game_over_text()
 
                 self.running = False
+                self.isGameFinished = True
 
             self.enemy_list[i].enemyY += self.enemy_list[i].enemyY_change
 
