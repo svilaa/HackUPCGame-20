@@ -58,7 +58,7 @@ class Level:
 
     def show_score(self, x, y):
         score = self.font.render(
-            "Score : " + str(Level.score_value), True, (255, 255, 255))
+            "Score : " + str(Level.score_value), True, (0, 0, 0))
         self.ui.screen.blit(score, (x, y))
 
     def game_over_text(self):

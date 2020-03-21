@@ -24,15 +24,22 @@ class Game():
                                   "img/pizza.png", "img/wallet.png"]
         self.spanish_enemy_types = ["img/fork.png",
                                   "img/knife.png", "img/wallet.png"]
+        self.china_music = "music/chinese_level.mp3"
+        self.italia_music = "music/italian_level.mp3"
+        self.spain_music = "music/spanish_level.mp3"
+        self.final_boss_music = "music/final_bos.mp3"
         self.isGameFinished = False
         
 
     def run(self):
         level1 = Level(self.ui, self.china_enemy_types, 7)
+        self.ui.set_sound(self.china_music)
         if level1.run():
+            self.ui.set_sound(self.italia_music)
             self.ui.set_background('img/backgrounds/italy.png')
             level2 = Level(self.ui, self.italy_enemy_types, 12)
             if level2.run():
+                self.ui.set_sound(self.spain_music)
                 self.ui.set_background('img/backgrounds/spain.jpg')
                 level3 = Level(self.ui, self.spanish_enemy_types, 17)
                 if level3.run():
