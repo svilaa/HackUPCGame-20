@@ -42,8 +42,9 @@ num_of_enemies = 6
 china_enemy_types = ["img/cat.png", "img/chopsticks.png", "img/fan.png"]
 
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.transform.scale(pygame.image.load(
-        china_enemy_types[random.randint(0, 2)]), (64, 64)))
+    img = pygame.transform.scale(pygame.image.load(
+        china_enemy_types[random.randint(0, 2)]), (64, 64))
+    enemyImg.append(img)
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -58,7 +59,7 @@ bulletImg = pygame.image.load('space_img/bullet.png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 10
+bulletY_change = 15
 bullet_state = "ready"
 
 # Score
@@ -118,9 +119,9 @@ while running:
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                playerX_change = -8
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                playerX_change = 8
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("space_img/laser.wav")
@@ -165,6 +166,7 @@ while running:
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
             explosionSound = mixer.Sound("space_img/explosion.wav")
+            explosionSound.set_volume(0.1)
             explosionSound.play()
             bulletY = 480
             bullet_state = "ready"
