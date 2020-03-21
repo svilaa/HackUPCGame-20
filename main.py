@@ -11,19 +11,22 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 
 # Background
-background = pygame.image.load('background.png')
+background = pygame.image.load('space_img/background.png')
 
 # Sound
-mixer.music.load("background.wav")
+mixer.music.load("space_img/background.wav")
 mixer.music.play(-1)
+mixer.music.set_volume(0.1)
 
 # Caption and Icon
-pygame.display.set_caption("Space Invader")
-icon = pygame.image.load('ufo.png')
+
+pygame.display.set_caption("Corona Invaiders")
+icon = pygame.image.load('img/virus.png')
+
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('player.png')
+playerImg = pygame.image.load('space_img/player.png')
 playerX = 370
 playerY = 480
 playerX_change = 0
@@ -36,8 +39,12 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 6
 
+china_enemy_types = ["img/cat.png", "img/chopsticks.png", "img/fan.png"]
+
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('enemy.png'))
+    img = pygame.transform.scale(pygame.image.load(
+        china_enemy_types[random.randint(0, 2)]), (64, 64))
+    enemyImg.append(img)
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -48,11 +55,11 @@ for i in range(num_of_enemies):
 # Ready - You can't see the bullet on the screen
 # Fire - The bullet is currently moving
 
-bulletImg = pygame.image.load('bullet.png')
+bulletImg = pygame.image.load('space_img/bullet.png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 10
+bulletY_change = 15
 bullet_state = "ready"
 
 # Score
@@ -92,11 +99,9 @@ def fire_bullet(x, y):
 
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt(math.pow(enemyX - bulletX, 2) + (math.pow(enemyY - bulletY, 2)))
-    if distance < 27:
-        return True
-    else:
-        return False
+    distance = math.sqrt(math.pow(enemyX - bulletX, 2) +
+                         (math.pow(enemyY - bulletY, 2)))
+    return distance < 27
 
 
 # Game Loop
@@ -114,12 +119,13 @@ while running:
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                playerX_change = -8
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                playerX_change = 8
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
-                    bulletSound = mixer.Sound("laser.wav")
+                    bulletSound = mixer.Sound("space_img/laser.wav")
+                    bulletSound.set_volume(0.1)
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
                     bulletX = playerX
@@ -159,7 +165,8 @@ while running:
         # Collision
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
-            explosionSound = mixer.Sound("explosion.wav")
+            explosionSound = mixer.Sound("space_img/explosion.wav")
+            explosionSound.set_volume(0.1)
             explosionSound.play()
             bulletY = 480
             bullet_state = "ready"
