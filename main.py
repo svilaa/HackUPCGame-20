@@ -38,8 +38,10 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 6
 
+china_enemy_types=["img/cat.png", "img/chopsticks.png", "img/fan.png"]
+
 for i in range(num_of_enemies):
-    enemyImg.append(pygame.image.load('space_img/enemy.png'))
+    enemyImg.append(pygame.transform.scale(pygame.image.load(china_enemy_types[random.randint(0,2)]),(64,64)))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
