@@ -19,7 +19,7 @@ class Game():
         pygame.display.set_icon(self.ui.icon)
 
         # Player
-        self.player = Player('img/glove.png',
+        self.player = Player('img/glove_2.png',
                              self.ui.width/2, self.ui.height-10)
 
         # Enemy
