@@ -102,7 +102,7 @@ class Level:
                     self.player.playerX_change = 5
                 if event.key == pygame.K_SPACE:
                     if self.bullet.bullet_state is "ready":
-                        bulletSound = mixer.Sound("music/tirar.mp3")
+                        bulletSound = mixer.Sound("space_img/laser.wav")
                         bulletSound.set_volume(0.1)
                         bulletSound.play()
                         # Get the current x cordinate of the spaceship
@@ -142,7 +142,7 @@ class Level:
             collision = self.isCollision(
                 self.enemy_list[i].enemyX, self.enemy_list[i].enemyY, self.bullet.bulletX, self.bullet.bulletY)
             if collision:
-                explosionSound = mixer.Sound("music/burbuja.mp3")
+                explosionSound = mixer.Sound("space_img/explosion.wav")
                 explosionSound.set_volume(0.1)
                 explosionSound.play()
                 self.bullet.bulletY = self.player.playerY + self.bullet.height
