@@ -10,13 +10,14 @@ import time
 
 class Level:
     score_value = 0
-    def __init__(self, ui, enemies_img, num_of_enemies, final_level=False):
+    def __init__(self, ui, enemies_img, num_of_enemies, level_music, final_level=False):
         self.ui = ui
         self.running = True
         self.max_score = Level.score_value+100
         self.enemies_img = enemies_img
         self.final_level = final_level
         self.num_of_enemies = num_of_enemies
+        self.level_music = level_music
         self.init_level()
         
 

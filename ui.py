@@ -23,3 +23,8 @@ class UI:
 
     def set_background(self, path):
         self.background = transform.scale(image.load(path), (self.width, self.height))
+
+    def set_sound(self, sound):
+        self.sound.load(sound)
+        self.sound.set_volume(0.1)
+        self.sound.play(-1)
