@@ -43,4 +43,4 @@ class Game():
                 self.ui.set_background('img/backgrounds/spain.jpg')
                 self.level3 = Level(self.ui, self.spanish_enemy_types, 17, self.spain_music, final_level=True)
                 self.level3.run()
-        self.isGameFinished = True
+        Level.score_value = 0

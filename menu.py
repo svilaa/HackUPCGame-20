@@ -30,7 +30,6 @@ class Menu:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         self.intro=False
-                        print(pygame.event)
             self.gameDisplay.blit(self.background, (0, 0))
 
             pygame.display.update()
