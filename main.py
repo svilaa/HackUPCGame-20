@@ -1,8 +1,8 @@
 import math
 import random
-
 import pygame
 from pygame import mixer
+import mainGame
 
 # Intialize the pygame
 pygame.init()
@@ -16,7 +16,6 @@ background = pygame.image.load('space_img/background.png')
 # Sound
 mixer.music.load("space_img/background.wav")
 mixer.music.play(-1)
-mixer.music.set_volume(0.1)
 
 # Caption and Icon
 
@@ -26,10 +25,12 @@ icon = pygame.image.load('img/virus.png')
 pygame.display.set_icon(icon)
 
 # Player
-playerImg = pygame.image.load('space_img/player.png')
-playerX = 370
-playerY = 480
-playerX_change = 0
+#playerImg = pygame.image.load('space_img/player.png')
+#playerX = 370
+#playerY = 480
+#playerX_change = 0
+
+mainGame = mainGame.MainGame()
 
 # Enemy
 enemyImg = []
@@ -39,12 +40,10 @@ enemyX_change = []
 enemyY_change = []
 num_of_enemies = 6
 
-china_enemy_types = ["img/cat.png", "img/chopsticks.png", "img/fan.png"]
+china_enemy_types=["img/cat.png", "img/chopsticks.png", "img/fan.png"]
 
 for i in range(num_of_enemies):
-    img = pygame.transform.scale(pygame.image.load(
-        china_enemy_types[random.randint(0, 2)]), (64, 64))
-    enemyImg.append(img)
+    enemyImg.append(pygame.transform.scale(pygame.image.load(china_enemy_types[random.randint(0,2)]),(64,64)))
     enemyX.append(random.randint(0, 736))
     enemyY.append(random.randint(50, 150))
     enemyX_change.append(4)
@@ -59,7 +58,7 @@ bulletImg = pygame.image.load('space_img/bullet.png')
 bulletX = 0
 bulletY = 480
 bulletX_change = 0
-bulletY_change = 15
+bulletY_change = 10
 bullet_state = "ready"
 
 # Score
@@ -85,7 +84,7 @@ def game_over_text():
 
 
 def player(x, y):
-    screen.blit(playerImg, (x, y))
+    screen.blit(mainGame.playerImg, (x, y))
 
 
 def enemy(x, y, i):
@@ -99,15 +98,13 @@ def fire_bullet(x, y):
 
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt(math.pow(enemyX - bulletX, 2) +
-                         (math.pow(enemyY - bulletY, 2)))
-    return distance < 27
+    distance = math.sqrt(math.pow(enemyX - bulletX, 2) + (math.pow(enemyY - bulletY, 2)))
+    if distance < 27:
+        return True
+    else:
+        return False
 
-
-# Game Loop
-running = True
-while running:
-
+def gameLoop():
     # RGB = Red, Green, Blue
     screen.fill((0, 0, 0))
     # Background Image
@@ -119,13 +116,12 @@ while running:
         # if keystroke is pressed check whether its right or left
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -8
+                mainGame.playerX_change = -5
             if event.key == pygame.K_RIGHT:
-                playerX_change = 8
+                mainGame.playerX_change = 5
             if event.key == pygame.K_SPACE:
                 if bullet_state is "ready":
                     bulletSound = mixer.Sound("space_img/laser.wav")
-                    bulletSound.set_volume(0.1)
                     bulletSound.play()
                     # Get the current x cordinate of the spaceship
                     bulletX = playerX
@@ -133,16 +129,16 @@ while running:
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                playerX_change = 0
+                mainGame.playerX_change = 0
 
     # 5 = 5 + -0.1 -> 5 = 5 - 0.1
     # 5 = 5 + 0.1
 
-    playerX += playerX_change
-    if playerX <= 0:
-        playerX = 0
-    elif playerX >= 736:
-        playerX = 736
+    mainGame.playerX += mainGame.playerX_change
+    if mainGame.playerX <= 0:
+        mainGame.playerX = 0
+    elif mainGame.playerX >= 736:
+        mainGame.playerX = 736
 
     # Enemy Movement
     for i in range(num_of_enemies):
@@ -166,7 +162,6 @@ while running:
         collision = isCollision(enemyX[i], enemyY[i], bulletX, bulletY)
         if collision:
             explosionSound = mixer.Sound("space_img/explosion.wav")
-            explosionSound.set_volume(0.1)
             explosionSound.play()
             bulletY = 480
             bullet_state = "ready"
@@ -185,6 +180,12 @@ while running:
         fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
-    player(playerX, playerY)
+    player(mainGame.playerX, mainGame.playerY)
     show_score(textX, testY)
     pygame.display.update()
+
+
+# Game Loop
+running = True
+while running:
+    gameLoop()
