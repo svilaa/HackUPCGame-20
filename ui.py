@@ -20,3 +20,6 @@ class UI:
         self.icon = image.load('img/virus.png')
         # Name
         self.name = "Corona Invaders"
+
+    def set_background(self, path):
+        self.background = transform.scale(image.load(path), (self.width, self.height))
