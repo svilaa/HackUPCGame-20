@@ -71,7 +71,7 @@ class Level:
         self.ui.screen.blit(score, (x, y))
 
     def game_over_text(self):
-        over_text = self.over_font.render("GAME OVER", True, (255, 255, 255))
+        over_text = self.over_font.render("GAME OVER", True, (0,0,0))
         self.ui.screen.blit(over_text, (200, 250))
     
     def level_up_text(self):
