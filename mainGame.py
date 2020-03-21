@@ -8,6 +8,8 @@ class MainGame():
         # Intialize the pygame
         pygame.init()
 
+        self.running = True
+
         # create the screen
         self.screen = pygame.display.set_mode((800, 600))
 
@@ -107,14 +109,14 @@ class MainGame():
         self.screen.blit(self.background, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                self.running = False
 
             # if keystroke is pressed check whether its right or left
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    playerX_change = -5
+                    self.playerX_change = -5
                 if event.key == pygame.K_RIGHT:
-                    playerX_change = 5
+                    self.playerX_change = 5
                 if event.key == pygame.K_SPACE:
                     if self.bullet_state is "ready":
                         bulletSound = mixer.Sound("space_img/laser.wav")
@@ -125,7 +127,7 @@ class MainGame():
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    playerX_change = 0
+                    self.playerX_change = 0
 
         # 5 = 5 + -0.1 -> 5 = 5 - 0.1
         # 5 = 5 + 0.1
@@ -182,6 +184,5 @@ class MainGame():
 
     def run(self):
         # Game Loop
-        running = True
-        while running:
+        while self.running:
             self.gameLoop()
